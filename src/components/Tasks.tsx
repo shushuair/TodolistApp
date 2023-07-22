@@ -1,28 +1,40 @@
 import React from 'react';
+import {FilterStatusType} from "./reducers/todolistReducer";
 import {useSelector} from "react-redux";
 import {AppRootReducerType} from "./redux/store";
-import {FilterStatusType, todolistId1, TodolistsType} from "./reducers/todolistReducer";
-import {Button} from "./Button";
-import {AddItemForm} from "./AddItemForm";
+import {TaskType} from "./reducers/tasksReducer";
+import Task from "./Task";
 
-export type TodoPropsType = {
+export type TasksPropsType = {
     todolistID: string
-    titleTodolist: string
     filterStatus: FilterStatusType
 }
 
-export const Todo = (props: TodoPropsType) => {
-    const {todolistID, titleTodolist, filterStatus} = props
+export const Tasks = (props: TasksPropsType) => {
+
+    let {todolistID, filterStatus} = props
+    let tasks = useSelector<AppRootReducerType, TaskType[]>(state => state.tasks[todolistID])
+
+    let filteredTasks = tasks
+    if(filterStatus === "active"){
+        filteredTasks = tasks.filter(el=>!el.isDone)
+    }
+    if(filterStatus === "completed"){
+        filteredTasks = tasks.filter(el=>el.isDone)
+    }
     return (
         <div>
-            <h2>{titleTodolist}</h2>
-            <Button name={"X"} callback={()=>{}}/>
-            <AddItemForm callback={()=>{}} />
-            <Tasks />
-            <Button name={"all"} callback={()=>{}}/>
-            <Button name={"active"} callback={()=>{}}/>
-            <Button name={"completed"} callback={()=>{}}/>
+            {filteredTasks.map(el=>{
+                return (
+                        <Task
+                            key={el.id}
+                            todolistID={todolistID}
+                            taskID={el.id}
+                            taskTitle={el.title}
+                            statusChecked={el.isDone}
+                        />
+                    )
+            })}
         </div>
     );
 };
-
