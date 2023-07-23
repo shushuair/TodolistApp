@@ -1,17 +1,8 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootReducerType} from "../redux/store";
-import {
-    addTodolistAC,
-    changeTitleTodolistAC,
-    FilterStatusType,
-    removeTodolistAC,
-    todolistId1,
-    TodolistsType
-} from "../reducers/todolistReducer";
+import {TodolistsType} from "../reducers/todolistReducer";
 import {Todo} from "../Todo/Todo";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-
 
 
 export const Todolist = () => {
