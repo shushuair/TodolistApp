@@ -3,7 +3,7 @@ import {FilterStatusType} from "./reducers/todolistReducer";
 import {useSelector} from "react-redux";
 import {AppRootReducerType} from "./redux/store";
 import {TaskType} from "./reducers/tasksReducer";
-import Task from "./Task";
+import {Task} from "./Task";
 
 export type TasksPropsType = {
     todolistID: string
@@ -31,7 +31,8 @@ export const Tasks = (props: TasksPropsType) => {
                             todolistID={todolistID}
                             taskID={el.id}
                             taskTitle={el.title}
-                            statusChecked={el.isDone}
+                            checked={el.isDone}
+
                         />
                     )
             })}

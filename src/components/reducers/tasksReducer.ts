@@ -36,13 +36,17 @@ export const tasksReducer = (state:TasksType = initialState, action: MainType): 
            return {...state,
            [action.payload.todolistId]: []
         }}
+        case "NEW-CHECKED-STATUS":{
+            return {...state,[action.payload.todolistId]:state[action.payload.todolistId].map(el=>el.id===action.payload.taskId?{...el, isDone: !el.isDone}:el)}
+        }
         case "REMOVE-TODOLIST": {
             const copyState = {...state}
             delete copyState[action.payload.id]
             return copyState
         }
-
-
+        case "NEW-TITLE-TASK":{
+            return {...state,[action.payload.todolistId]:state[action.payload.todolistId].map(el=>el.id===action.payload.taskId?{...el, title: action.payload.newTitle}:el)}
+        }
         default: return state
     }
 }
@@ -50,7 +54,8 @@ export const tasksReducer = (state:TasksType = initialState, action: MainType): 
 
 
 
-export type MainType = RemoveTaskACType | AddTaskACType | AddTodolistACType | RemoveTodolistACType
+export type MainType = RemoveTaskACType | AddTaskACType |
+    AddTodolistACType | RemoveTodolistACType | NewCheckedStatusACType | NewTitleTaskACType
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (todolistID:string, taskID:string) =>{
@@ -60,6 +65,14 @@ export const removeTaskAC = (todolistID:string, taskID:string) =>{
     } as const
 }
 
+export type NewCheckedStatusACType=ReturnType<typeof newCheckedStatusAC>
+export const newCheckedStatusAC=(todolistId:string,taskId:string)=>{
+    return{
+        type:"NEW-CHECKED-STATUS",
+        payload:{todolistId,taskId}
+    }as const
+}
+
 export type AddTaskACType = ReturnType<typeof addTaskAC>
 export const addTaskAC = (todolistID:string, newTitle:string) => {
     return {
@@ -67,7 +80,13 @@ export const addTaskAC = (todolistID:string, newTitle:string) => {
         payload: {todolistID, newTitle}
     } as const
 }
-
+export type NewTitleTaskACType=ReturnType<typeof newTitleTaskAC>
+export const newTitleTaskAC=(todolistId:string,taskId:string,newTitle:string)=>{
+    return{
+        type:"NEW-TITLE-TASK",
+        payload:{todolistId,taskId,newTitle}
+    }as const
+}
 
 
 
