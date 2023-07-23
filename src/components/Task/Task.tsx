@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {Checkbox} from "./Checkbox";
-import {Button} from "./Button";
+import {Checkbox} from "../Checkbox/Checkbox";
+import {Button} from "../Button/Button";
 import {useDispatch} from "react-redux";
-import {newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "./reducers/tasksReducer";
-import EditableSpan from "./EditableSpan";
+import {newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reducers/tasksReducer";
+import EditableSpan from "../EditableSpan/EditableSpan";
 
 export type TaskPropsType = {
     todolistID: string
@@ -26,7 +26,7 @@ export const Task = (props: TaskPropsType) => {
         dispatch(newTitleTaskAC(todolistID,taskID,newTitle))
     },[dispatch, taskID, todolistID])
         return (
-            <div>
+            <div className={checked ? 'isDone' : ''}>
                 <EditableSpan value={taskTitle} onChange={newTitleTask}/>
                 <Checkbox callback={newCheckedStatus} statusChecked={checked}/>
                 <Button name={"X"} callback={removeTask}/>

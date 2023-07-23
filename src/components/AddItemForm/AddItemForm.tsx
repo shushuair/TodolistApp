@@ -45,9 +45,9 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
     return (
         <div>
-            <input value={newTitle} onChange={onChangeHandler} onKeyDown={onKeyHandler}  />
+            <input value={newTitle} onChange={onChangeHandler} onKeyDown={onKeyHandler}  className={error ? "error" : ""} />
             <button onClick={onClickHandler}>Add</button>
-            {error && <h3>{error}</h3>}
+            {error && <h3 className="errorMessage">{error}</h3>}
         </div>
     );
 }

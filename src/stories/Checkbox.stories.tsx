@@ -1,4 +1,4 @@
-import {Checkbox, CheckboxPropsType} from "../components/Checkbox";
+import {Checkbox, CheckboxPropsType} from "../components/Checkbox/Checkbox";
 import {Meta, Story} from "@storybook/react";
 import {action} from "@storybook/addon-actions"
 

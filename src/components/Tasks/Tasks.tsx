@@ -1,9 +1,9 @@
 import React from 'react';
-import {FilterStatusType} from "./reducers/todolistReducer";
+import {FilterStatusType} from "../reducers/todolistReducer";
 import {useSelector} from "react-redux";
-import {AppRootReducerType} from "./redux/store";
-import {TaskType} from "./reducers/tasksReducer";
-import {Task} from "./Task";
+import {AppRootReducerType} from "../redux/store";
+import {TaskType} from "../reducers/tasksReducer";
+import {Task} from "../Task/Task";
 
 export type TasksPropsType = {
     todolistID: string

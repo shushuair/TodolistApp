@@ -1,18 +1,19 @@
 import React, {memo, useCallback, useReducer} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootReducerType} from "./redux/store";
+import {AppRootReducerType} from "../redux/store";
+
 import {
     changeFilterAC, changeTitleTodolistAC,
     FilterStatusType,
     removeTodolistAC,
     todolistId1,
     TodolistsType
-} from "./reducers/todolistReducer";
-import {Button} from "./Button";
-import {AddItemForm} from "./AddItemForm";
-import {Tasks} from "./Tasks";
-import {addTaskAC} from "./reducers/tasksReducer";
-import EditableSpan from "./EditableSpan";
+} from "../reducers/todolistReducer";
+import {Button} from "../Button/Button";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {Tasks} from "../Tasks/Tasks";
+import {addTaskAC} from "../reducers/tasksReducer";
+import EditableSpan from "../EditableSpan/EditableSpan";
 
 export type TodoPropsType = {
     todolistID: string
@@ -35,6 +36,10 @@ export const  Todo =  memo((props: TodoPropsType) => {
     const newStatusFilter = useCallback((newStatus: FilterStatusType) => {
         dispatch(changeFilterAC(todolistID,newStatus))
     }, [dispatch, todolistID])
+
+    let allButtonStyle = props.filterStatus === 'all' ? 'activeFilter' : ""
+    let completedButtonStyle = props.filterStatus === 'completed' ? 'activeFilter' : ""
+    let activeButtonStyle = props.filterStatus === 'active' ? 'activeFilter' : ""
     return (
         <div>
 
@@ -47,9 +52,12 @@ export const  Todo =  memo((props: TodoPropsType) => {
                 todolistID={todolistID}
                 filterStatus={filterStatus}
             />
-            <Button name={"all"} callback={()=>newStatusFilter("all")}/>
-            <Button name={"active"} callback={()=>newStatusFilter("active")}/>
-            <Button name={"completed"} callback={()=>newStatusFilter("completed")}/>
+            <Button name={"all"} callback={()=>newStatusFilter("all")} style
+                ={allButtonStyle}/>
+            <Button name={"active"} callback={()=>newStatusFilter("active")} style
+                ={activeButtonStyle}/>
+            <Button name={"completed"} callback={()=>newStatusFilter("completed")} style
+                ={completedButtonStyle}/>
         </div>
     );
 })
