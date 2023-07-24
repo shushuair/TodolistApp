@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {FilterStatusType} from "../reducers/todolistReducer";
 import {useSelector} from "react-redux";
 import {AppRootReducerType} from "../redux/store";
@@ -10,7 +10,7 @@ export type TasksPropsType = {
     filterStatus: FilterStatusType
 }
 
-export const Tasks = (props: TasksPropsType) => {
+export const Tasks = memo((props: TasksPropsType) => {
 
     let {todolistID, filterStatus} = props
     let tasks = useSelector<AppRootReducerType, TaskType[]>(state => state.tasks[todolistID])
@@ -26,16 +26,16 @@ export const Tasks = (props: TasksPropsType) => {
         <div>
             {filteredTasks.map(el=>{
                 return (
-                        <Task
-                            key={el.id}
-                            todolistID={todolistID}
-                            taskID={el.id}
-                            taskTitle={el.title}
-                            checked={el.isDone}
+                    <Task
+                        key={el.id}
+                        todolistID={todolistID}
+                        taskID={el.id}
+                        taskTitle={el.title}
+                        checked={el.isDone}
 
-                        />
-                    )
+                    />
+                )
             })}
         </div>
     );
-};
+})

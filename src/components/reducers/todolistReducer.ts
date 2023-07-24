@@ -15,8 +15,15 @@ let initialState: TodolistsType[] = [
     {id: todolistId1, title: 'What to learn ', filter: 'all'},
     {id: todolistId2, title: 'What to buy ', filter: 'all'}
 ]
+// let initialState: TodolistDomainType[] = []
 
-type MainType = ChangeTitleTodolistACType | RemoveTodolistACType | AddTodolistACType | ChangeFilterACType
+export type SetTodolistsActionType = {
+    type: "SET-TODOLISTS"
+    todolists: TodolistsType[]
+}
+
+type MainType = ChangeTitleTodolistACType | RemoveTodolistACType |
+    AddTodolistACType | ChangeFilterACType | SetTodolistsActionType
 
 export const todolistReducer = (state: TodolistsType[] = initialState, action: MainType): TodolistsType[] => {
     switch (action.type) {
@@ -34,7 +41,9 @@ export const todolistReducer = (state: TodolistsType[] = initialState, action: M
                 ...el,
                 filter: action.payload.newStatusFilter
             } : el)
-
+        }
+        case "SET-TODOLISTS": {
+            return action.todolists
         }
         default:
             return state
@@ -74,4 +83,10 @@ export const changeFilterAC = (todolistID: string, newStatusFilter: FilterStatus
 }
 
 
+export const setTodolistsAC = (todolists: TodolistsType[]):SetTodolistsActionType => {
+    return {
+        type: "SET-TODOLISTS",
+        todolists: todolists
+    } as const
+}
 

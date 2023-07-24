@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Checkbox} from "../Checkbox/Checkbox";
 import {Button} from "../Button/Button";
 import {useDispatch} from "react-redux";
@@ -13,7 +13,7 @@ export type TaskPropsType = {
 }
 
 
-export const Task = (props: TaskPropsType) => {
+export const Task = memo((props: TaskPropsType) => {
     const {todolistID, taskID, taskTitle, checked} = props
     const dispatch = useDispatch()
     const removeTask = () => {
@@ -25,12 +25,12 @@ export const Task = (props: TaskPropsType) => {
     const newTitleTask= useCallback((newTitle:string)=>{
         dispatch(newTitleTaskAC(todolistID,taskID,newTitle))
     },[dispatch, taskID, todolistID])
-        return (
-            <div className={checked ? 'isDone' : ''}>
-                <EditableSpan value={taskTitle} onChange={newTitleTask}/>
-                <Checkbox callback={newCheckedStatus} statusChecked={checked}/>
-                <Button name={"X"} callback={removeTask}/>
-            </div>
-        );
-    }
+    return (
+        <div className={checked ? 'isDone' : ''}>
+            <EditableSpan value={taskTitle} onChange={newTitleTask}/>
+            <Checkbox callback={newCheckedStatus} statusChecked={checked}/>
+            <Button name={"X"} callback={removeTask}/>
+        </div>
+    );
+})
 
