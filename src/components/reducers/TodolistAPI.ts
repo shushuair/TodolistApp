@@ -1,4 +1,5 @@
 import axios from "axios"
+import {TasksType} from "./tasksReducer";
 
 const settings = {
     withCredentials: true,
@@ -7,22 +8,66 @@ const settings = {
     }
 }
 
+const instance = axios.create({
+    baseURL: "https://social-network.samuraijs.com/api/1.1/",
+    ...settings
+})
+
+export type TodolistType = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+}
+
+type ResponseType<D> = {
+    data: D
+    messages: string[]
+    resultCode: number
+}
+
+export type TaskType = {
+    description: string
+    title: string
+    isDone: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
+
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
+
 export const todolistAPI = {
     getTodolists() {
-        const promise = axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
+        const promise = instance.get<TodolistType[]>("todo-lists")
         return promise
     },
     createTodolist(title: string) {
-        const promise = axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists", {title: title}, settings)
+        const promise = instance.post<ResponseType<{ item: TodolistType[] }>>("todo-lists", {title: title})
         return promise
     },
     deleteTodolist(id: string) {
-        const promise = axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, settings)
+        const promise = instance.delete<ResponseType<{}>>(`todo-lists/${id}`)
         return promise
     },
     updateTodolist(id: string, title: string) {
-        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, {title: title}, settings)
+        const promise = instance.put<ResponseType<{}>>(`todo-lists/${id}`, {title: title})
         return promise
+    },
+    getTasks(todolistId: string) {
+        return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks `)
+    },
+    deleteTask(todolistId: string, taskId: string) {
+        return instance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
     }
 }
 
